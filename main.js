@@ -1,3 +1,4 @@
+const display = document.querySelector('.resultado');
 let board = [
   ['', '', ''],
   ['', '', ''],
@@ -11,7 +12,9 @@ let w, h;
 
 function setup() {
   let canvas = createCanvas(400, 400);
-  canvas.parent('canvas-container');
+  canvas.parent('container');
+  textSize(32);
+  strokeWeight(4);
   frameRate(1);
   currentPlayer = floor(random(players.length));
   for (let j = 0; j < 3; j++) {
@@ -60,7 +63,7 @@ function checkWinner() {
   }
 
   if(winner == null && available.length == 0) {
-    return 'tie';
+    return 'Empate';
   } else {
     return winner;
   }
@@ -82,9 +85,8 @@ function draw() {
     for (let i = 0; i < 3; i++) {
       let x = w * i + w / 2;
       let y = h * j + h / 2;
-      let spot = board[j][i]; // Corrigir a ordem de indexação para [j][i]
-      textSize(32);
-      strokeWeight(4);
+      let spot = board[j][i]; 
+      
       if (spot == players[1]) {
         noFill();
         ellipse(x, y, w / 2);
@@ -99,8 +101,12 @@ function draw() {
   let result  = checkWinner();
   if(result != null) {
     noLoop();
-    console.log(result)
-    console.log(board);
+    if(result == 'Empate') {
+      display.textContent = `${result}!`;
+    } else {
+      display.textContent = `Jogador ${result} é o campeão!`;
+    }
+    display.style.display = 'block';
   } else {
     nexTurn();
   }
