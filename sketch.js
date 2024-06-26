@@ -5,32 +5,18 @@ let board = [
   ['', '', ''],
 ];
 
-let players = ['X', 'O'];
-let currentPlayer;
-let available = [];
 let w, h;
+
+let ai = 'X';
+let human = 'O';
+let currentPlayer = human;
 
 function setup() {
   let canvas = createCanvas(400, 400);
   canvas.parent('container');
-  textSize(32);
-  strokeWeight(4);
-  frameRate(1);
-  currentPlayer = floor(random(players.length));
-  for (let j = 0; j < 3; j++) {
-    for (let i = 0; i < 3; i++) {
-      available.push([i,j])
-    }
-  }
-}
-
-function nexTurn() {
-  let index = floor(random(available.length));
-  let spot = available.splice(index, 1)[0];
-  let i = spot[0];
-  let j = spot[1];
-  board[i][j] = players[currentPlayer];
-  currentPlayer = (currentPlayer + 1) % players.length;
+  w = width/3;
+  h = height/3;
+  //bestMove();
 }
 
 function equals3(a, b, c) {
@@ -62,38 +48,60 @@ function checkWinner() {
     winner = board[2][0];
   }
 
-  if(winner == null && available.length == 0) {
+  let openSpots = 0;
+  for (let i = 0; i < 3; i++) {
+    for (let j = 0; j < 3; j++) {
+      if (board[i][j] == '') {
+        openSpots++;
+      }
+    }
+  }
+
+  if(winner == null && openSpots == 0) {
     return 'Empate';
   } else {
     return winner;
   }
+}
 
+function mousePressed() {
+  if (currentPlayer == human) {
+    // Human make turn
+    let i = floor(mouseX / w);
+    let j = floor(mouseY / h);
+    console.log(i, j);
+    // If valid turn
+    if (board[i][j] == '') {
+      board[i][j] = human;
+      currentPlayer = ai;
+      bestMove();
+    }
+  }
 }
 
 function draw() {
   background(255, 204, 0);
-
-  w = width / 3;
-  h = height / 3;
+  textSize(32);
+  strokeWeight(4);
 
   line(w, 0, w, height);
-  line(w*2, 0, w*2, height);
+  line(w * 2, 0, w * 2, height);
   line(0, h, width, h);
-  line(0, h*2, width, h*2);
+  line(0, h * 2, width, h * 2);
 
   for (let j = 0; j < 3; j++) {
     for (let i = 0; i < 3; i++) {
       let x = w * i + w / 2;
       let y = h * j + h / 2;
-      let spot = board[j][i]; 
-      
-      if (spot == players[1]) {
+      let spot = board[i][j];
+      textSize(32);
+      let r = w / 4;
+      if (spot == human) {
         noFill();
-        ellipse(x, y, w / 2);
-      } else if (spot == players[0]) {
-        let xr = w / 4;
-        line(x - xr, y - xr, x + xr, y + xr);
-        line(x + xr, y - xr, x - xr, y + xr);
+        ellipse(x, y, r * 2);
+      } else if (spot == ai) {
+        line(x - r, y - r, x + r, y + r);
+        line(x + r, y - r, x - r, y + r);
       }
     }
   }
@@ -107,8 +115,6 @@ function draw() {
       display.textContent = `Jogador ${result} é o campeão!`;
     }
     display.style.display = 'block';
-  } else {
-    nexTurn();
   }
   
 }
