@@ -7,7 +7,7 @@
 }
 
 body {
-  background-color: red;
+  background-color: #E6E6E6;
   width: 100vw;
   height: 100vh;
   display: flex;
@@ -22,11 +22,13 @@ body {
   row-gap: 1.6rem;
 }
 
-.resultado {
+.titulo__resultado {
+  color: #7B7B7B;
   font-family: 'Poppins', sans-serif;
   font-size: 2rem;
   font-weight: 600;
   display: none;
+  transition: all .3s;
 }
 
 canvas {

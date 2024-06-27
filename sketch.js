@@ -1,4 +1,4 @@
-const display = document.querySelector('.resultado');
+const display = document.querySelector('.titulo__resultado');
 let board = [
   ['', '', ''],
   ['', '', ''],
@@ -79,15 +79,17 @@ function mousePressed() {
 }
 
 function draw() {
-  background(255, 204, 0);
+  background(249, 249, 249);
   textSize(32);
   strokeWeight(4);
+  stroke('#659ABA');
 
   line(w, 0, w, height);
   line(w * 2, 0, w * 2, height);
   line(0, h, width, h);
   line(0, h * 2, width, h * 2);
 
+  stroke('#7B7B7B');
   for (let j = 0; j < 3; j++) {
     for (let i = 0; i < 3; i++) {
       let x = w * i + w / 2;
