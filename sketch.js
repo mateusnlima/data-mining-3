@@ -16,7 +16,7 @@ function setup() {
   canvas.parent('container');
   w = width/3;
   h = height/3;
-  //bestMove();
+  bestMove();
 }
 
 function equals3(a, b, c) {
@@ -69,7 +69,6 @@ function mousePressed() {
     // Human make turn
     let i = floor(mouseX / w);
     let j = floor(mouseY / h);
-    console.log(i, j);
     // If valid turn
     if (board[i][j] == '') {
       board[i][j] = human;

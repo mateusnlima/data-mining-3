@@ -27,6 +27,38 @@ let scores = {
   'Empate': 0
 };
 
+function maximizingPlayer(board, depth) {
+  let bestScore = -Infinity;
+  for(let i = 0; i < 3; i++) {
+    for(let j = 0; j < 3; j++) {
+      // A vaga esta disponivel 
+      if(board[i][j] == '') {
+        board[i][j] = ai;
+        let score = minimax(board, depth + 1, false);
+        board[i][j] = '';
+        bestScore = max(score, bestScore);
+      }
+    }
+  }
+  return bestScore;
+}
+
+function minimizingPlayer(board, depth) {
+  let bestScore = Infinity;
+  for(let i = 0; i < 3; i++) {
+    for(let j = 0; j < 3; j++) {
+      // A vaga esta disponivel 
+      if(board[i][j] == '') {
+        board[i][j] = human;
+        let score = minimax(board, depth + 1, true);
+        board[i][j] = '';
+        bestScore = min(score, bestScore);
+      }
+    }
+  }
+  return bestScore;
+}
+
 function minimax(board, depth, isMaximizing) {
   let result = checkWinner();
   if (result !== null) {
@@ -34,34 +66,9 @@ function minimax(board, depth, isMaximizing) {
   }
 
   if(isMaximizing) {
-    let bestScore = -Infinity;
-    for(let i = 0; i < 3; i++) {
-      for(let j = 0; j < 3; j++) {
-        // A vaga esta disponivel 
-        if(board[i][j] == '') {
-          board[i][j] = ai;
-          let score = minimax(board, depth + 1, false);
-          board[i][j] = '';
-          bestScore = max(score, bestScore);
-        }
-      }
-    }
-    return bestScore;
+    return maximizingPlayer(board, depth);
   } else {
-    let bestScore = Infinity;
-    for(let i = 0; i < 3; i++) {
-      for(let j = 0; j < 3; j++) {
-        // A vaga esta disponivel 
-        if(board[i][j] == '') {
-          board[i][j] = human;
-          let score = minimax(board, depth + 1, true);
-          board[i][j] = '';
-          bestScore = min(score, bestScore);
-        }
-      }
-    }
-    return bestScore;
+    return minimizingPlayer(board, depth);
   }
 
-  return 1;
 }
