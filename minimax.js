@@ -64,11 +64,9 @@ function minimax(board, depth, isMaximizing) {
   if (result !== null) {
     return scores[result];
   }
-
   if(isMaximizing) {
     return maximizingPlayer(board, depth);
   } else {
     return minimizingPlayer(board, depth);
   }
-
 }

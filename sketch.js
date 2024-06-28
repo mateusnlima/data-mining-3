@@ -1,4 +1,5 @@
 const display = document.querySelector('.titulo__resultado');
+let firstMove = true;
 let board = [
   ['', '', ''],
   ['', '', ''],
@@ -16,7 +17,14 @@ function setup() {
   canvas.parent('container');
   w = width/3;
   h = height/3;
-  bestMove();
+  if(firstMove) {
+    let i = parseInt(Math.random() * 2 + 1);
+    let j = parseInt(Math.random() * 2 + 1);
+    board[i][j] = ai;
+    firstMove = false;
+  } else {
+    bestMove();
+  }
 }
 
 function equals3(a, b, c) {
@@ -115,7 +123,7 @@ function draw() {
     } else {
       display.textContent = `Jogador ${result} é o campeão!`;
     }
-    display.style.display = 'block';
+    display.classList.add('titulo__resultado--ativo');
   }
   
 }
